@@ -72,7 +72,9 @@ public class GuestbookDao {
 		try {
 			connection = getConnection();
 
-			String sql = "select no, name, contents, reg_date from guestbook order by no desc";
+			String sql = "select no, name, contents, date_format(reg_date, '%Y-%m-%d %H:%i:%S) "
+					+ "from guestbook "
+					+ "order by no desc";
 			pstmt = connection.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
