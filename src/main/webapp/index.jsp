@@ -1,5 +1,5 @@
-<%@page import="kr.co.itcen.guestbook.dao.GuestbookDao"%>
 <%@page import="kr.co.itcen.guestbook.vo.GuestbookVo"%>
+<%@page import="kr.co.itcen.guestbook.dao.GuestbookDao"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
@@ -29,17 +29,22 @@
 	
 	<!-- Guestbook 리스트 -->
 	<%
+		int count = list.size();
+		int index = 0;
 		for(GuestbookVo vo : list){
 	%>
+	<br>
 	<table width=510 border=1>
 		<tr>
-			<td><%= vo.getNo() %></td>
+			<td>[<%= count-index++ %>]</td>
 			<td><%= vo.getName() %></td>
-			<td><%= vo.getRegdate() %></td>
+			<td><%= vo.getRegDate() %></td>
 			<td><a href="deleteform.jsp?no=<%= vo.getNo() %>">삭제</a></td>
 		</tr>
 		<tr>
-			<td colspan=4><%= vo.getContents() %></td>
+			<td colspan=4>
+				<%= vo.getContents() %>
+			</td>
 		</tr>
 	</table>
 	<%

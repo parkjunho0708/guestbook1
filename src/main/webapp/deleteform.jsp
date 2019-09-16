@@ -9,7 +9,7 @@
 </head>
 <body>
 	<form method="post" action="<%= request.getContextPath() %>/delete.jsp">
-	<input type='hidden' name="id" value="<%= no %>">
+	<input type='hidden' name="no" value="<%= no %>">
 	<table>
 		<tr>
 			<td>비밀번호</td>

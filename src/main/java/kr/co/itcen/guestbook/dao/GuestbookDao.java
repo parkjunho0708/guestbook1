@@ -11,6 +11,7 @@ import java.util.List;
 
 import kr.co.itcen.guestbook.vo.GuestbookVo;
 
+
 public class GuestbookDao {
 
 	public Boolean insert(GuestbookVo vo) {
@@ -24,12 +25,11 @@ public class GuestbookDao {
 		try {
 			connection = getConnection();
 
-			String sql = "insert into guestbook values (null, ?, ?, ?, ?)"; // jdbc는 ;(세미콜론)이 있으면 쿼리가 또 있다고 인식
+			String sql = "insert into guestbook values (null, ?, ?, ?, now())"; // jdbc는 ;(세미콜론)이 있으면 쿼리가 또 있다고 인식
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getPassword());
 			pstmt.setString(3, vo.getContents());
-			pstmt.setString(4, vo.getRegdate());
 
 			int count = pstmt.executeUpdate();
 			result = (count == 1);
@@ -65,6 +65,7 @@ public class GuestbookDao {
 
 	public List<GuestbookVo> getList() {
 		List<GuestbookVo> result = new ArrayList<GuestbookVo>();
+		
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -72,9 +73,14 @@ public class GuestbookDao {
 		try {
 			connection = getConnection();
 
-			String sql = "select no, name, contents, date_format(reg_date, '%Y-%m-%d %H:%i:%S) "
-					+ "from guestbook "
-					+ "order by no desc";
+			String sql = "select "
+											+ "no, "
+											+ "name, "
+											+ "contents, "
+											+ "date_format(reg_date, '%Y-%m-%d %h:%i:%s') "
+											+ "from guestbook "
+											+ "order by reg_date desc";
+			
 			pstmt = connection.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -83,13 +89,13 @@ public class GuestbookDao {
 				Long no = rs.getLong(1);
 				String name = rs.getString(2);
 				String contents = rs.getString(3);
-				String regdate = rs.getString(4);
+				String regDate = rs.getString(4);
 
 				GuestbookVo vo = new GuestbookVo();
 				vo.setNo(no);
 				vo.setName(name);
 				vo.setContents(contents);
-				vo.setRegdate(regdate);
+				vo.setRegDate(regDate);
 
 				result.add(vo);
 			}
